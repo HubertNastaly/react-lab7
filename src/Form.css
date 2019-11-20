@@ -3,3 +3,9 @@ input{
   box-sizing: border-box;
   margin-bottom: 10px;
 }
+
+.validationMsg{
+  line-height: calc(10px + 2vmin);
+  font-size: 10px;
+  color: red;
+}
