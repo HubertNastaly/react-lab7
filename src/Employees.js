@@ -1,12 +1,15 @@
 import React from 'react'
 import Employee from './Employee'
+import Form from './Form'
+import './Employees.css'
 
 export default class Employees extends React.Component
 {
   constructor(props){
     super(props);
     this.state = {
-      employees: null
+      employees: null,
+      showForm: false
     }
     this.getEmployees = this.getEmployees.bind(this);
   }
@@ -22,6 +25,8 @@ export default class Employees extends React.Component
   render(){
     return(
       <div>
+        <Form/>
+        <h1>Employees</h1>
         {this.state.employees == null ? "Loading..." : 
           this.state.employees.map((employee)=>
             <Employee key={employee._id} employeeName={employee.name} age={employee.age} active={employee.isActive}/>
