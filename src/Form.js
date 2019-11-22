@@ -11,7 +11,9 @@ export default class Form extends React.Component{
       name: null,
       email: null,
       phoneNumberValid: true,
-      emailValid: true
+      emailValid: true,
+      formValid: false,
+      buttonDisabled: true
     }
     this.ageChanged = this.ageChanged.bind(this);
     this.parentNameChanged = this.parentNameChanged.bind(this);
@@ -27,30 +29,34 @@ export default class Form extends React.Component{
   nameChanged = (event) => this.setState({name: event.target.value});
   emailChanged = (event) => this.setState({email: event.target.value});
   
-  validateData()
+  validateData(event)
   {
     if(this.state.age < 18)
     {
       const phoneNumberPattern = /[0-9]{9}/;
-      phoneNumberPattern.test(this.state.phoneNumber) ? this.setState({phoneNumberValid: true}) : this.setState({phoneNumberValid: false});
+      phoneNumberPattern.test(event.target.value) ? 
+        this.setState({phoneNumberValid: true, buttonDisabled: false}) : 
+        this.setState({phoneNumberValid: false, buttonDisabled: true});
     }
     else
     {
       const emailPattern = /^[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-      emailPattern.test(this.state.email) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
+      emailPattern.test(event.target.value) ? 
+        this.setState({emailValid: true, buttonDisabled: false}) : 
+        this.setState({emailValid: false, buttonDisabled: true});
     }
   }
   render(){
     return(
       <form onSubmit={event => {event.preventDefault(); this.validateData()}}>
-        <input name="age" type="number" placeholder="Age" onChange={this.ageChanged}></input>
+        <input name="age" type="number" step="1" placeholder="Age" onChange={this.ageChanged}></input>
         <br></br>
         {
           this.state.age < 18 ?(
           <div>
             <input name="parentName" type="text" placeholder="Parent name" onChange={this.parentChanged}></input>
             <br></br>
-            <input name="parentPhoneNumber" type="text" placeholder="Parent phone number" onChange={this.phoneNumberChanged}></input>
+            <input name="parentPhoneNumber" type="text" placeholder="Parent phone number" onChange={(event) => {this.phoneNumberChanged(event); this.validateData(event);}}></input>
             {!this.state.phoneNumberValid ? <label className="validationMsg">Incorrect phone number</label> : null}
             <br></br>
           </div>
@@ -58,13 +64,13 @@ export default class Form extends React.Component{
           <div>
             <input name="employeeName" type="text" placeholder="Name" onChange={this.nameChanged}></input>
             <br></br>
-            <input name="email" type="text" placeholder="Email" onChange={this.emailChanged}></input>
+            <input name="email" type="text" placeholder="Email" onChange={(event) => {this.emailChanged(event); this.validateData(event);}}></input>
             {!this.state.emailValid ? <label className="validationMsg">Incorrect email address</label> : null}
             <br></br>
           </div>
           )
         }
-        <input name="submit" type="submit" value="Submit"/>
+        <input name="submit" type="submit" value="Submit" disabled={this.state.buttonDisabled}/>
       </form>
     )
   }

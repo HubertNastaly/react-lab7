@@ -2,6 +2,37 @@ input{
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 10px;
+  border: none;
+  padding: 10px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; 
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
+input[type=submit]{
+  border: 3px solid limegreen;
+  color: limegreen;
+  background-color: white;
+}
+
+input[type=submit]:hover{
+  background-color: limegreen;
+  color: white;
+  cursor: pointer;
+}
+
+input[type=submit]:disabled{
+  border: none;
+  background-color: lightgray;
+  color: gray;
+  cursor: default;
 }
 
 .validationMsg{
